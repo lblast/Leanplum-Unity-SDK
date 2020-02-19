@@ -36,7 +36,8 @@ import com.leanplum.callbacks.ActionCallback;
 import com.leanplum.callbacks.StartCallback;
 import com.leanplum.callbacks.VariableCallback;
 import com.leanplum.callbacks.VariablesChangedCallback;
-import com.leanplum.internal.Util;
+import com.leanplum.callbacks.MessageDisplayedCallback;
+import com.leanplum.models.MessageArchiveData;
 import com.leanplum.json.JsonConverter;
 import com.unity3d.player.UnityPlayer;
 
@@ -303,6 +304,16 @@ public class UnityBridge {
         makeCallbackToUnity("VariableValueChanged:" + name);
       }
     });
+  }
+
+  public static void registerMessageDisplayedCallback(){
+    MessageDisplayedCallback callback = new MessageDisplayedCallback() {
+      @Override
+      public void messageDisplayed(MessageArchiveData messageArchiveData) {
+        makeCallbackToUnity("MessageDisplayed:");
+      }
+    };
+    Leanplum.addMessageDisplayedHandler(callback);
   }
 
   public static String varValue(String name) {
